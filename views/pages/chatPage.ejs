@@ -1,0 +1,16 @@
+<% include header %>
+
+	<% for ( users of userinfo) { %>
+
+		<div class="well"> <a href="/chat/<%= users.id  %>"><img src="/assets/ProfilesPictures/<%= users.picture %>" style="width: 50px; height: 50px;margin-right: 25px" class="img img-rounded">       <%= users.name %> - <%= users.email %></a>
+
+			<% if(users.status == 1) { %>
+				 connected 
+			<% }else{ %>
+				disconected
+			<% } %>
+		</div>
+
+	<% } %>
+
+<% include footer %>

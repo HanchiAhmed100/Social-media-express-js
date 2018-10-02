@@ -1,0 +1,38 @@
+<% include header %>
+<% if( typeof user != 'undefined') {%> 
+		<% if( user.id == msg.UserId) {%>
+			<div class="uk-margin">
+				<div class="col-sm-12">
+					<% for (msg of message) { %>
+				    <form action="/Acceuil/update/<%= msg.id %> " method="post">
+				        <label>Title : </label>
+				        <input type="text" name="title" id="title" class="uk-input uk-margin" value="<%= msg.title %>"><br>
+				        <label>Body : </label>
+				        <textarea class="uk-textarea uk-margin" name="body" id="body"> <%= msg.body %></textarea><br>
+				        <button type="submit" class="uk-button uk-button-default">Envoyer</button>
+				    </form>
+
+					<% } %>
+				</div>
+			</div>
+	<% } else { %>
+				<div class="uk-margin">
+					<div class="col-sm-12">
+						<h3 class="text-center"> It's not your Message : </h3>
+					</div>
+				</div>
+
+	<% } }else { %>
+	 
+
+				<div class="uk-margin">
+					<div class="col-sm-12">
+						<h3 class="text-center"> You are not logged in</h3>
+					</div>
+				</div>
+	<% } %>
+
+
+
+
+<% include footer %>

@@ -1,0 +1,102 @@
+<% include header %>
+	<div class="uk-margin">
+		<div class="row">
+			<% for (msg of message) { %>
+
+			<div class="col-sm-1">
+				<img src="/assets/ProfilesPictures/<%= msg.picture %>">
+			</div>
+			<div class="col-sm-11">
+	            <h4><%= msg.title %></h4>
+	            <p><%= msg.body %></p>
+	            <b>by : <%= msg.name %> - <%= msg.email %><small class="pull-right"><%= msg.dateof %></small></b>
+	            <br>
+
+	            <br>
+        	</div>
+        	<div class="uk-padding">
+    
+				<% if(like){ %>
+		    		Likes : <a uk-toggle="target: #modal-center" > <%= nbr[0].nbr %></a><br>
+
+
+
+<div id="modal-center" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        	<h2>Likes  : </h2><hr>
+				<%
+					for (l of like) {
+		    			if(l.id !== user.id ){
+		    				 var showMenu = 0;
+						}else{
+		    				 var showMenu = 1;
+		    			}    
+
+		    			 %>	
+		    			 		<% if(nbr[0].nbr == '' ) {%>    
+		    			 		<p>No likes yet ! </p>
+		    			 		<% }else{%>
+						        <p><a href="/ViewProfile/<%= l.id %>"><img src="/assets/ProfilesPictures/<%= l.picture %>" style="width: 30px;height: 30px;margin-right: 25px"><%= l.name %></p><hr>
+					        	<% } %>
+
+			    		<% } %>
+		    		 
+						    </div>
+						</div>
+					
+		    			<% }
+		    			if( showMenu == 1){ %>
+			        		<a href="/Acceuil/disLike/<%= msg.id %>">DisLike </a>
+		    			<%	}else{ %>
+		    				<a href="/Acceuil/Like/<%= msg.id %>">Like </a>
+	    				<% } %>
+
+						<% if( user.id == msg.UserId) {%>
+			        	<a href="/Acceuil/Delete/<%= msg.id %>" class="uk-margin-left">Delete</a>
+			        	<a href="/Acceuil/Edit/<%= msg.id %>" class="uk-margin-left">Edit</a>
+		    			<% } %>
+
+    			<% } %>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+
+	<hr>
+	<% if( typeof user != 'undefined') {%>
+	<div class="uk-margin uk-padding uk-margin-bottom">
+		<div class="col-sm-12">
+
+			    <form action="/Acceuil/comment/<%= msg.id %> " method="post">
+			        <label> Comments </label>
+			        <textarea class="uk-textarea uk-margin" name="comment" id="comment"> </textarea><br>
+			        <button type="submit" class="uk-button uk-button-default">Envoyer</button>
+			    </form>
+
+		</div>
+	</div>
+
+	<div class="uk-margin uk-padding"></div>
+		<% } %>
+	<div class="uk-margin uk-padding uk-margin-top">
+			<% for (c of comment) { %>
+
+			<div class="col-sm-1">
+				<img src="/assets/ProfilesPictures/<%= c.picture %>">
+			</div>
+			<div class="col-sm-11">
+				<a href="/ViewProfile/<%= c.UserId %>"><%= c.name %> - <%= c.email %></a>
+	            <p><%= c.comment %></p>
+	            <b><small class="pull-right"><%= c.dateof.fromNow() %></small></b>
+	            <br>
+	            <hr>
+        	</div>
+			<% } %>
+	</div>
+<% include footer %>

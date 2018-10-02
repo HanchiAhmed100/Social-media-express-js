@@ -1,0 +1,112 @@
+<% include header %>
+<br><br>
+	<div class="col-sm-3" id="users"></div>
+	<div class="col-sm-6">
+		
+		<div class="row uk-section">
+			<div class="col-sm-2"><img class="img img-responsive" src="/assets/ProfilesPictures/<%= userinfo[0].picture  %>"> </div>
+			<div class="col-sm-10"><h4 class="text-center"><%= userinfo[0].name %> <br> <a href="/ViewProfile/<%= userinfo[0].id %>"> <%= userinfo[0].email %></a> </h4></div>
+		</div>
+
+		<div class="row">
+		<div id="load"></div>
+		</div>
+		<form id="messageform">
+			<textarea class="uk-textarea" id="msg" name="msg"  required></textarea>
+			<input type="submit" class="btn btn-block uk-button ">
+		</form>
+	</div>
+	<style type="text/css">
+		.hid{
+			
+			opacity: 0;
+			transition: 0.5s;
+		}		
+		.hid:hover{
+			opacity: 1;
+			transition: 0.5s;
+		}
+	</style>
+
+	<script type="text/javascript">
+			$(document).ready(function() {
+				fetch();
+			})
+			function fetch(){
+				 $.get("http://localhost:3010/chat/c/<%= userinfo[0].id %>", function(data, status){
+			        Res = [];
+			        Res = data.Posts
+    			 	for (var i = 0; i < Res.length; i++) {
+    			 		if(Res[i].sender == <%= user.id %> ){
+		        			$('#load').append('<div class="well col-sm-10 col-sm-offset-2 col-xs-10 col-xs-offset-2"> <%= user.name %> : '+Res[i].msg+ '<br> <small class="hid">'+Res[i].dateof+'</small></div>')
+    			 		}else{
+    			 			$('#load').append(' <div class="alert alert-success col-sm-10 col-xs-10 "> <%= userinfo[0].name %> : '+Res[i].msg+'<br> <small class="hid">'+Res[i].dateof+'</small></div>')
+    			 		}
+
+			 		}
+			    });
+			}
+
+
+	$(function(){
+		var socket = io.connect()
+		var $messageform =  $('#messageform');
+		var $msg =  $('#msg');
+		var $chat = $('#load');
+		var $users = $('#users');
+
+		var $senderid =  <%= user.id %>
+		var $reciverid = <%= userinfo[0].id %>
+		var $userName = "<%= user.name %>" 
+
+		$messageform.submit(function(e){
+			e.preventDefault();
+			socket.emit('send message', $msg.val() , $senderid , $reciverid);
+			$msg.val('');
+		})
+
+		socket.on('new message',function(data){
+			if( $userName == data.myuser ){
+				$chat.append('<div class="well col-sm-10 col-sm-offset-2 col-xs-10 col-xs-offset-2">'+  data.myuser  +' :  '+data.msg+'</div>');
+	 		}else{
+				$chat.append('<div class="alert alert-success col-sm-10 col-xs-10">'+  data.myuser  +' :  '+data.msg+'</div>');
+	 		}
+		});
+
+		socket.emit('new user',$userName,$senderid)
+
+		socket.on('get users',function(data){
+			var html = '';
+			for (var i = 0; i < data.length; i++) {
+				html += '<li>'+data[i]+'</li>';
+			}
+
+			$users.html(html)
+		})
+
+		$msg.focus(function() {
+			socket.emit('writing')
+  		});
+
+  		socket.on('isWriting',function(data){
+			if( $userName == data.myuser ){
+	 		}else{
+				$chat.append('<div class="alert alert-success col-sm-5 col-xs-5 writing"><%= userinfo[0].name %> is writing ... </div>');
+	 		}
+
+  		})
+
+  		$msg.focusout(function(){
+  		 	socket.emit('not')
+  		});
+
+  		socket.on('isNot',function(){
+  		 	$('.writing').hide();
+  		})
+	})
+
+	</script>
+</div>
+</section>
+</body>
+</html>

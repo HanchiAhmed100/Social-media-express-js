@@ -1,0 +1,54 @@
+<% include header %>
+<div class="container">
+	<div class="page-header text-center">
+		<h1>Profile Page</h1>
+	</div>
+
+	<div class="row">
+
+		<div class="col-sm-4">
+				<img src="/assets/ProfilesPictures/<%= message[0].picture %>" style="width:400px; height: 200px ">
+		</div>
+		<!-- LOCAL INFORMATION -->
+		<div class="col-sm-8">
+			<div class="well">
+				<h3><span class="fa fa-user"></span> Info : </h3>
+
+					<p>
+						<strong>name</strong>: <%= message[0].name %><br>
+						<strong>username</strong>: <%= message[0].username %><br>
+						<strong>email</strong>: <%= message[0].email %><br>
+					</p>
+					<% if( status  == undefined ) {%>
+					<form action="/FriendsReq" method="post">
+						<input type="hidden" value="<%= message[0].id %>" name="RelationId">
+						<input type="submit" value="Ajouter">
+					</form>
+					<% } if(status == 0){   %>
+						<form action="/RemoveReq" method="post">
+							
+						</form>
+					<% } %>
+			</div>
+		</div>
+
+	</div>
+	<div class="uk-margin">
+		<div class="row">
+			<% for (msg of message) { %>
+
+			<div class="col-sm-1">
+				<img src="/assets/ProfilesPictures/<%= msg.picture %>">
+			</div>
+			<div class="col-sm-11">
+	            <h4><a href="/Message/<%= msg.id %>"><%= msg.title %></a></h3>
+	            <p><%= msg.body %></p>
+	            <b><small class="pull-right"><%= msg.dateof.fromNow() %></small></b>
+	            <br>
+	            <hr>
+        	</div>
+			<% } %>
+		</div>
+	</div>
+	
+<% include footer %>

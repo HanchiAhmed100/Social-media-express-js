@@ -1,0 +1,18 @@
+</div>
+</section>
+</body>
+	<script type="text/javascript">
+
+	$(function(){
+		var socket = io.connect()
+		
+		var $senderid =  <%= user.id %>
+
+		var $userName = "<%= user.name %>" 
+
+		socket.emit('new user',$userName,$senderid)
+
+	})
+
+	</script>
+</html>

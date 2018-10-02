@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>hello</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/uikit.min.css">
+     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+      <script type="text/javascript" src="/assets/js/jquery.js"></script>
+      <script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="/assets/js/main.js"></script>
+
+      <script type="text/javascript" src="/assets/js/uikit.min.js"></script>
+      <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="/">MyBlog</a>
+	    </div>
+	    <ul class="nav navbar-nav">
+	    	
+	    </ul>
+	  </div>
+	</nav>
+
+
+
+ <nav class="navbar navbar-inverse navbar-fixed-top" uk-parallax="target:#form;background-color:#18bc91,#15a589; viewport: 0.5;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span> 
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                  <% if( typeof user != 'undefined') {%>
+
+                    <li><a href="/profile"><img src="/assets/ProfilesPictures/<%= user.picture %>" style=" width: 25px;height: 25px" class="img img-circle" ><%= user.name %></a></li>
+                  <% } %>
+
+
+
+                  <li><a href="/Acceuil">Acceuil</a></li>
+
+                  <% if( typeof user != 'undefined') {%>
+
+                    <li><a href="/chat">Chat</a> </li>
+                    <li><a href="/logout">Logout</a> </li>
+
+                  <% }else{ %>
+                    <li><a href="/">home</a></li>
+                    <li><a href="/Login">Login</a></li>
+                    <li><a href="/Register">register</a></li>
+                  <% } %>
+                  <!--<li><a href="/lists">Cookies</a></li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</html>
+    <section class="uk-section uk-section-muted">
+        <div class="container">
+     

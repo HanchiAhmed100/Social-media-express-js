@@ -1,0 +1,82 @@
+<% include header %>
+<div class="container">
+	<div class="page-header text-center">
+		<h1> My Profile Page</h1>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-4">
+			<img src="/assets/ProfilesPictures/<%= user.picture %>" id="pPic" class="profilePic" style="width:400px; height: 200px ">
+		    <form ref='uploadForm' 
+		      id='uploadForm' 
+		      action='/uploadProfilePicture' 
+		      method='post' 
+		      encType="multipart/form-data"
+		       style="display: none;">
+		        <input type="file" name="sampleFile" id="fileToUpload" />
+		        <input type='submit' value='Upload!' id="fileSubmit" />
+		    </form>  
+		</div>
+		
+		<!-- LOCAL INFORMATION -->
+		<div class="col-sm-8">
+			<div class="well">
+				<h3><span class="fa fa-user"></span> Your information : </h3>
+
+					<p>
+						<strong>id</strong>: <%= user.id %><br>
+						<strong>username</strong>: <%= user.username %><br>
+						<strong>email</strong>: <%= user.email %><br>
+						<strong>password</strong>: <%= user.password %>
+					</p>
+
+			</div>
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		    <form action="/Acceuil/" method="post">
+		        <label>Title : </label>
+		        <input type="text" name="title" id="title" class="uk-input uk-margin"><br>
+		        <label>Body : </label>
+		        <textarea class="uk-textarea uk-margin" name="body" id="body"></textarea><br>
+		        <button type="submit" class="uk-button uk-button-default">Envoyer</button>
+		    </form>
+		</div>
+	</div>
+	<div class="uk-margin">
+		<div class="row">
+			<% for (msg of message) { %>
+
+			<div class="col-sm-1">
+				<img src="/assets/ProfilesPictures/<%= user.picture %>">
+			</div>
+			<div class="col-sm-11">
+	            <h4><a href="/Acceuil/<%= msg.id %>"><%= msg.title %></a></h3>
+	            <p><%= msg.body %></p>
+	            <b><small class="pull-right"><%= msg.dateof.fromNow() %></small></b>
+	            <br>
+	            <hr>
+        	</div>
+			<% } %>
+		</div>
+	</div>
+	<script type="text/javascript">
+		
+	$(function () {
+	    $("#pPic").click(function (event) {
+	        event.preventDefault();
+	        $("#fileToUpload").click();
+	    });
+	});
+
+	$(function () {
+	    $("#fileToUpload").change(function (event) {
+	        event.preventDefault();
+	        $("#fileSubmit").click();
+	    });
+	});
+
+	</script>
+<% include footer %>
